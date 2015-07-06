@@ -1,0 +1,85 @@
+options {
+	// Set the working directory from which all relative paths are based 
+	directory "/var/cache/bind";
+
+	// RECURSION - Required for caching servers 
+	// Default: yes 
+	// Values : yes, no 
+	// 
+	// yes: Attempt to resolve requests we are not authoritative for 
+	// no : Do not resolve requests we are not authoritative for 
+	// 
+	recursion yes;
+
+	// ALLOW-RECURSION - Who may use our caching server? 
+	// Default: any; 
+	// Values : any, none, (addresslist) 
+	// 
+	// any : anybody may use the caching server 
+	// none : none may use the caching server 
+	// address: List of IP addresses that may use the caching server. 
+	// 
+	allow-recursion { localhost; localnets; }; 
+	
+	// FORWARD - Recommended for caching servers 
+	// Default: first 
+	// Values : first, only 
+	// 
+	// first: Query "forwarders" first, then resolve request ourself 
+	// only : Only query the "forwarders" to resolve requests 
+	// 
+	//forward first;
+
+	// FORWARDERS - Required if "forward" is used 
+	// Default: (no forwarding) 
+	// Values : (addresslist) 
+	// 
+	// It is recommended that you use your ISP's caching server addresses 
+	// Example: forwarders { 127.0.0.1; 127.0.0.2; } 
+	//
+	// forwarders {
+	// 	0.0.0.0;
+	// };
+	
+	// If there is a firewall between you and nameservers you want
+	// to talk to, you may need to fix the firewall to allow multiple
+	// ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+	// If your ISP provided one or more IP addresses for stable 
+	// nameservers, you probably want to use them as forwarders.  
+	// Uncomment the following block, and insert the addresses replacing 
+	// the all-0's placeholder.
+
+
+
+	//========================================================================
+	// If BIND logs error messages about the root key being expired,
+	// you will need to update your keys.  See https://www.isc.org/bind-keys
+	//========================================================================
+        auth-nxdomain no; # conform to RFC1035
+        //dnssec-enable no;
+        dnssec-validation auto;
+		
+		//empty-zones-enable no;
+		
+        // Listen to all IPv4 and IPv6 interfaces
+        listen-on { any; };
+        listen-on-v6 { none; };
+
+        // Improving server performances by reducing outgoing data volumes
+        minimal-responses yes;
+
+        // Protecting server against common attacks
+		allow-query	{ localhost; localnets; };
+        allow-query-cache { localhost; localnets; };
+        allow-transfer { none; };
+        version "i-MSCP DNS Server";
+
+        // bind custom data BEGIN.
+		max-cache-size 1M;
+        // bind custom data END.
+};
+
+//trusted-keys {
+//           "/etc/bind/bind.keys"
+//};

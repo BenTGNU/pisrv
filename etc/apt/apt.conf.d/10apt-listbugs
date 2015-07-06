@@ -1,0 +1,6 @@
+// Check all packages whether they has critical bugs before they are installed.
+// If you don't like it, comment it out.
+DPkg::Pre-Install-Pkgs {"/usr/sbin/apt-listbugs apt || exit 10";};
+DPkg::Tools::Options::/usr/sbin/apt-listbugs "";
+DPkg::Tools::Options::/usr/sbin/apt-listbugs::Version "2";
+// AptListbugs::IgnoreRegexp "FTBFS";

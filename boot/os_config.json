@@ -1,0 +1,12 @@
+{
+ "description" : "Adds an empty 512MB ext4 format partition to the partition layout.",
+ "flavour" : "Data Partition",
+ "imagefolder" : "/settings/os/Data_Partition",
+ "keyboard" : "fr",
+ "language" : "fr",
+ "partitions" : [
+"/dev/mmcblk0p5"
+ ],
+ "release_date" : null,
+ "videomode" : 0
+}

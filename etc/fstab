@@ -1,0 +1,38 @@
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+proc            /proc           proc    defaults          0       0
+/dev/mmcblk0p6  /boot           vfat    defaults          0       2
+/dev/mmcblk0p7  /               ext4    defaults,noatime,nodiratime	0       1
+/dev/mmcblk0p5  /data           ext4    defaults,noatime,nodiratime,users	1	2
+#cgroup         /sys/fs/cgroup  cgroup  defaults        0       0
+
+# Swap
+#UUID=7edeeba6-3f76-46c0-b750-e879ec0e6664	none		swap	sw,pri=5 	0	0
+# a swapfile is not a swap partition, so no using swapon|off from here on, use  dphys-swapfile swap[on|off]  for that
+
+#### TmpFS Media ###
+### For Backup but defined in /etc/default/tmpfs
+#tmpfs  /tmp            tmpfs   defaults,nodev,nosuid,size=5M,mode=1777 0       0
+tmpfs   /var/log        tmpfs   defaults,noatime,size=20M,mode=0755     0       0
+#tmpfs   /var/tmp        tmpfs   defaults,noatime,size=1M,mode=1777      0       0
+#tmpfs   /var/cache/apt/archives tmpfs   defaults,noexec,nosuid,nodev,size=100M,mode=0755        0       0
+
+#### USB Media ###
+#LABEL=RuinesHDD	/storage	btrfs	defaults,rw,nossd,noatime,compression=lzo,autodefrag				0	0
+#LABEL=RuinesHDD	/storage	btrfs	rw,users,nossd,noatime,nodiratime	0	0
+#LABEL=iomegaHDD_1TB	/storage	ext4	defaults,noatime,nodiratime,users,data=ordered       0       0
+
+## SSHfs
+#sshfs#ben@192.168.1.81:22:/home/ben /media/iPuffy fuse defaults,auto,allow_other       0	0
+
+## CiFS ##
+//192.168.1.254/Disque\040dur	/mnt/freeboxsrv	cifs	_netdev,noauto,rw,users,credentials=/home/.smb_pass,sec=ntlm,uid=1000,gid=100,iocharset=utf8,file_mode=0770,dir_mode=0770	0	0
+//192.168.1.254/iomegaHDD_1TB	/storage	cifs	_netdev,noauto,rw,users,credentials=/home/.smb_pass,sec=ntlm,uid=1000,gid=100,iocharset=utf8,file_mode=0770,dir_mode=0770	0	0
+
+## DavFS ##
+#webcloud6.zaclys.com/remote.php/webdav /mnt/owncloud davfs user,rw,noauto 0 0

@@ -1,0 +1,232 @@
+## Configuration file for a typical Tor user
+## Last updated 22 April 2012 for Tor 0.2.3.14-alpha.
+## (may or may not work for much older or much newer versions of Tor.)
+##
+## Lines that begin with "## " try to explain what's going on. Lines
+## that begin with just "#" are disabled commands: you can enable them
+## by removing the "#" symbol.
+##
+## See 'man tor', or https://www.torproject.org/docs/tor-manual.html,
+## for more options you can use in this file.
+##
+## Tor will look for this file in various places based on your platform:
+## https://www.torproject.org/docs/faq#torrc
+
+## Tor opens a socks proxy on port 9050 by default -- even if you don't
+## configure one below. Set "SocksPort 0" if you plan to run Tor only
+## as a relay, and not make any local application connections yourself.
+#SocksPort 9050 # Default: Bind to localhost:9050 for local connections.
+#SocksPort 192.168.0.1:9100 # Bind to this adddress:port too.
+SocksPort 9050
+SocksListenAddress 127.0.0.1
+
+## Entry policies to allow/deny SOCKS requests based on IP address.
+## First entry that matches wins. If no SocksPolicy is set, we accept
+## all (and only) requests that reach a SocksPort. Untrusted users who
+## can access your SocksPort may be able to learn about the connections
+## you make.
+#SocksPolicy accept 192.168.0.0/16
+#SocksPolicy reject *
+SocksPolicy accept 127.0.0.1
+
+## Logs go to stdout at level "notice" unless redirected by something
+## else, like one of the below lines. You can have as many Log lines as
+## you want.
+##
+## We advise using "notice" in most cases, since anything more verbose
+## may provide sensitive information to an attacker who obtains the logs.
+##
+## Send all messages of level 'notice' or higher to /var/log/tor/notices.log
+#Log notice file /var/log/tor/notices.log
+## Send every possible message to /var/log/tor/debug.log
+#Log debug file /var/log/tor/debug.log
+## Use the system log instead of Tor's logfiles
+#Log notice syslog
+## To send all messages to stderr:
+#Log debug stderr
+
+## Uncomment this to start the process in the background... or use
+## --runasdaemon 1 on the command line. This is ignored on Windows;
+## see the FAQ entry if you want Tor to run as an NT service.
+#RunAsDaemon 1
+
+## The directory for keeping all the keys/etc. By default, we store
+## things in $HOME/.tor on Unix, and in Application Data\tor on Windows.
+#DataDirectory /var/lib/tor
+
+## The port on which Tor will listen for local connections from Tor
+## controller applications, as documented in control-spec.txt.
+#ControlPort 9051
+## If you enable the controlport, be sure to enable one of these
+## authentication methods, to prevent attackers from accessing it.
+#HashedControlPassword 16:872860B76453A77D60CA2BB8C1A7042072093276A3D701AD684053EC4C
+#CookieAuthentication 1
+
+## Network Configuration
+VirtualAddrNetwork 10.192.0.0/10
+AutomapHostsOnResolve 1
+DNSPort 53
+DNSListenAddress 127.0.0.2
+AutomapHostsSuffixes .exit,.onion
+
+## Speed Optimization
+AvoidDiskWrites 1 # Avoids writing to HDD (obviously)
+DisableAllSwap 1 # Keeps everything in memory as much as possible
+HardwareAccel 1 # Enables hardware acceleration for generating crypto keys
+LearnCircuitBuildTimeout 1 # Enables circuit learning
+CircuitBuildTimeout 4 # Try 4 seconds before abandoning to build a circuit 
+KeepalivePeriod 10 # Keep alive for pesky firewalls
+NewCircuitPeriod 30 # Build a new circuit every 30 seconds
+NumEntryGuards 8 # Keep 8 entry guards alive
+StrictNodes 1 # Respect node exclusions
+SafeSocks 1 # Use properly configured socks5 proxies
+##
+# These settings will allow single-hope circuits and defeat the 
+# purpose of staying anonymous. On the other hand, they will make 
+# Tor noticeably faster. If your unique concern is hiding your 
+# IP, then you can enable them at the expense of anonymity.
+AllowSingleHopCircuits 1
+ExcludeSingleHopRelays 0
+FastFirstHopPK 0
+##
+MaxCircuitDirtiness 300 # Cycles proxies every 5 minutes
+LongLivedPorts 80,443 # heh . . . xD
+NumCPUs 2 # number of CPUs to use
+ClientUseIPv6 1 # Set to 1, "Tor might connect to entry nodes over IPv6".
+
+## Exit nodes
+ExitNodes {hk},{kr},{jp},{lv},{ro},{be},{ch},{bg},{il},{sg},{tw},{ad},{lu},{mo}
+
+## Bad Nodes
+#ExcludeNodes $c730f00eb35eddf4f9b99c957f3c16656e5ca29c, $354e2ed163ba928e2e5f40819f6df2b97988df73, $bbefffa108ad16b8e5f0323cf086811c17190bba, $f941e14100a9a9b00cbeb55c72dfa211ef98bdf2, $0ddd660e450f8aa852226a28b5bfcaa914911e30, $a75bea3bf10978ecf210b7651b19bfe3f70e7fe1, $29d05c706c12baa12ae889caf81554d266948f79, $cff48861e1a2774bf0d483998198cfecea9ff477, $79b8ad256fb269416747697be0e854f84442efe9, $b827f69101b71c05a956bfead8ad152b6541223e, $85173744907a6599c9f718bebd51353c5a094d49, $daf53151f62800e34a398e7cc3416b935deb546c, $1d6deac8364d9d6c42cc4fb83c364c7b71ae8691, $2bc4012f2193cb92b9995f42e987ba0044098b30, $91ede73fb8c2edca41ffc86539f36213844376c4, $5d84518804ab4b032531b2647603fe1c5e569c26, $4205c064e59aaafeadd2ace80d705183c4f2758a, $14f04a0861b913bfcac1eabac74a1f47bdf41f3a, $1f9803d6ade967718912622ac876feef1088cfaa, $eda829cba890bbb30fe5be04779d83044126ba67, $fe0551589d19dcbeb193fe78a9a003a8a2fc09aa, $6c7c819f808ac125c69e1d981f350dcba44da8b5, $35bdc6486420efd442c985d8d3c074988bfe544b, $43be706e24143ab6b3b86dbf7cd4fde1e0c4caf1, $103827708bd078eec737137585eccb5bcea6424b, $8ff73b8fbfbf2ccb52a8e46a515418f97a69c812, $f2244a8d5da14359cda1dab70f328e62e74e9837, $c9be2c39ca4e6f120293c80d2cbe2bc34f3a1f30, $bcc93397b50c1ac75c94452954a5bcda01f47215, $ee25656d71db9a82c8efd8c4a99ddbec89f24a67, $1b777f2c879c76fc529d1ec63508aad0e1759e79 
+## Exit Nodes 
+#ExcludeExitNodes $36ddc2eb59a84da313112cae186ecef4acbfcfd5, $5eb6c2094c4ac42d3fbd1cba25fc3b4196e2ff83, $94d587cd723e3def95616fc75489c45303df9aed, $55ea8b4b1c8f066baf7c2979ddfd00f8276038f4, $ea23975f961ac2b8941ca52da67efb1cbfca18ab, $0a35553a4aa10831f3f2143eacc8539632d9541c, $c813d142c092ac01f2f20970dba7086b8a7e52a3, $eeefcb3d12571e00d96286e65dea2ae6b40e73b4, $4d13bb7a08e14952e346cfbcb3cf5c45bb228cf4, $bbc05ff7c09b6a0122861d5ac7fea75b89d7212c, $9c8bb2a38d99283c4acefb1ad4f52a23413787d6, $7c18ee0cb68a259ba6ce0001f2f7b8180a875a6d, $0343fa5be98bb751492244bcd211d493e6340f9a, $76d583de43c20d7e05f5e5e878591e40cba5353a, $3df610e0a277f7d90f3ee7192dbb08caff3727ee, $e1cd3b6c24700e1aa236295ddba2c84a0fea7a67, $9dd7f70e41bebf8f3cb5a2419643ce108d9b69e6, $5168ba1a59afa8557cfc521b5f547c3891eaf106, $d63587fd607aed803cd8ced9ddb5076f99752c65, $19a564c7856788f9bf3004e099d864a7802502a9, $47bbde163dc80f5f5e666698ab4b97900dcff929, $acbacb92581c078cc6e285075cfef467e9ccf76a, $7aa23f871264e0d006ec12ef9eb229a2015023fc, $5af9d6f4ca429110a3504742ae7852eba2aad64b, $405b07b30586bc5ddef77f4f3b8d831ccb0e541b, $cb982649a0785639a3891e89d4e165a44ad3f60b, $c44fa995abb9c18969464cc479d3d722250a9ecb, $59e87afdb5d3effce63afdfa3c0b00eb8d07db82, $e566ad3c6fc7dea0a3356ddfbb6b57ca79d74cd6, $a3931b4c5a41cdef29987351d541e424e4a5b77f, $ce57a98cec55c767c1dab14507915b893b8b777d, $c647d56c900ceea91eee2d3249ef949e29dc57e8, $afb32eead177efc7d2bd1ae7b890dae448c60237, $bce9ebe70016fb4c54ed549c4d8f035d7888d04c, $c7d92fc915f118b7b75e137f11a29413158bd2b5, $7e0b691c7b6f48304a31098cf6a12c502f1c45ab, $9f6589962c1f58478a38d4da85d36c81fdb8c0a0, $726df9cede96a3e70282234fccf827e435291853, $14153d9bfdd77e477ff5bb5f7b87af4f581f6285, $c53c81a5c6c89903acacb0db1c8e2b6c91c074a3, $471886434d7abdb62c216217c2b50cb50ebec6b3, $f19aeeccf966e49b9eef429e43c8cf9362edeacd, $e2f501df1c17737bddf155b9f57612a09bfc1ef8, $90804a60f89789d44a16a88596598fbc8f5e177b, $eee5603baca71acc9d7634e6ffd824003f3fdc39, $1d61e0b75e8e127693bf2dc1f2904b58f50249d9, $bc808734c6c7a166403c69f8f42a5b6ef8065f8c, $97400af2a769188357f9198a9da584531c6b7ce6, $019ef7dbc8d67ccca755128ef73d118e381e09ec, $d587010aac789741178b435fae48c6624c3d502c, $df94ad444c1d0a1060c8ba1114245798687ad3a7, $1bd40c7a3a4d1e5c8285d9e5695ea3f21a3951e0, $84ca95a4d9e824c6f9662711b887433525760f72, $ad1dab3a9fcb6ec81a518c4bb98f28e8faeea1ac, $11d3c5445af4d57a65551affc8469e11659daa35, $510adf1cc8e0d9ba763afc8e018c3d83e5f055a8, $ec714625c4ffc32e22b67dc425d336de00b3bd8b, $8bb21f7686ae18672debcdfe0892b6f0b280e75e, $2a4ea2effa76c10779ae06d1f14a8c835f7abe2f, $e9d9e02eda5419dae55ee381367b261f7dd31f6e, $1e8a60cbf29f2b35071442a4bb57b8eb47a8b947, $a06fb187d6d88edaffc878eb6f1df0c5b59aa333, $7eaa3c48a3483ac67d81816d356cd7d04d7fd1db, $ab674b8bd8cc779c581f25e0da86612f000c8b26, $ac51642fa7a01c47b66f9747abb41a2bc07c41f4, $e63337786b7e1fb2480e798c0a6c951e2d56e913, $01e80769f0739b5fe49ba0343e7f0249350a0bd6, $8bd75f9675f0b87496e89e4025558c45ba75123c, $94e0927767f8c20d73eb458b1dfdaf8426431c55, $cf57a5358addf413d4e7c1267a99394bd2cf8523, $c0e236c6e9a6b29efe247dcbc8a1eaaac247770c, $192fa9d6e9a27024f6e733a6196d33cc8425d1c9, $d5edc74f2fb81e6ac1a8eba56448f71ddfaa4ae5, $3a3797558ea5e974278e7c060c1e994411dc2cc6, $89b3a6eb23686f2326c5d3437244897f7cef9aeb, $8a560069c696d0cd50408be284c85b6d2a6e0b9a, $055d304e29cf064a8cb8ab2c13aedb836bb79af5, $6586cee14353dd1e6faf3f172a23b00119a67c57, $09c0c5800177bf3a11a78a98a1cafd8e7ad2ea02, $269533885d491544b862af6497c058892d7f308a, $1df79e5a8901463383f01c58fba72f4a1d3f4a94, $a2c7c344a899233c0768401b9c340574d8a2643b, $d1186220c52e61134cbdbd68fa4cf0ae0c75015f, $6f383c2629471e1ae7da053d04625aaed69844cc, $07e226ccd6e50700a669906688f0661031cc56c1, $b0c142c97db514db3a419d1aa4ce04e1a86c151b, $f349b8f53ecd2c02349983ea8c8f615ad753a275, $38652dc45e38ccd4c5b00746a2c7bd536f97e1c0, $ba8539403b5e698a93d907dfea8b48ff2b81a4c3, $579888c8a61b99e3a2942b7415aa0a1b9f6a7e9d, $404b3594dc6bb205e43f0bd0b168a78c6aa2c88d, $8e670205cf878f3e50db014d77f0f8070eb1c611, $02460816d52f14ad4c068eee71b255582caccea4, $8c6595deabf0a0dd81835471fb6c044bdcfb1f8e, $3d168107bbbfc5213dcd83cfd7918d4f8eb8bb4a, $bb73111ec9a138c39e3a49c5aa89ce8864ee804a, $dcc44bfc8ada4e5d750e675b653f2ae28690cd31, $639ecc2d4fb514a8dee938c4210a49bed7859604, $cd053c104bc559c791c3fd5d3bd6fb8fac6edb88, $7697c880eb2051d361f29d383b87d1b5c2baf8f3, $4780f09fd8156d2471d276c4ae8b4364795bba53, $11a0239fc6668705f68842811318b669c636f86e, $71e78e9b961d5e25f1a16fccd15e81aa3b36cb93, $3d0fafb36eb9fc9d1efd68758e2b0025117d3d1b, $5a6fc0957b9b2eab36595c5913897f8daafd1272, $35e8b344f661f4f2e68b17648f35798b44672d7e, $25658a5df26121f7da21eda6ccef9b8d0ae8d79e, $d0d9758796ee8ad89769fef8d11e4fa60642cc55, $9530c61386be6a0087e80752223534c18df4b3ff, $8e068a19835bfe4adee57a51d96ef0598723517d, $82b38a8c3cf979b9faf547620072e6b538cc10b8, $412260256ce25cd5c155b00e14fa2d30a9533374, $96271599012517d202a7ca90133d7e0cc434a11d, $03ac5b7f2cf317f074db78c7988ebafebada47cf, $494ba52ce8a1683332c3c77c403192069eea0155, $47916cab5878c810e7ef71a316d37fc823cc7f52, $659df6537d605feab3b77e58e75342d704f0a799, $9f5db40b02b5b9171e9deaee62d89d5562572c37, $a9c039a5fd02fca06303dcfaabe25c5912c63b26, $92d151a8219cc742de7e0eaeb6d18faf9793ba79, $3077df82e3e8958d5f9bb02fa0a2d1ecade8f411, $76544bba2a1f3e73b05d4d78ae01de1b5acd7a00, $a07177486a1f51b041d0205d2675b3c9ef6569ce, $caf7986ecf1fbf903e68155531f8930c9ecc3a0d, $48949e6050aada3c9c0980d13036a2097b7c575a, $70ff4fda8f72207907b0948709a2dd2b360622d4, $8908f39e78d60e766179243f5661b5862fdf029e, $810962dc3c058c757070420e9a9497532bb8185a, $9b41b9b3d4661566c660096b715bc647fbd72a72, $3e96079b64d7d0ed602c9245772b491362b83b31, $4800e53b039aa14a69104bb54473bd75e2d310c8, $320c2c69edd602517a8bdd24032529f0de431aaf, $fc35de87f6e4022693323275f6b8ee5f72fd21b5, $58ca3b6414e859ade539a61f476d6dcbe1411652, $103827708bd078eec737137585eccb5bcea6424b, $885f25f704b12223f823758f8443bcbf17378a8f, $a28642fce5be5805a907c1c8b95f6876be11b337, $258a5503d00fcc540c5d7234a63ddbe7fb55a2c2, $f5a78ed829191d76c7399b86e4429f8f663e0c02, $d3ed911183df31fdb744a22f94be6a856ac77d12, $023220505a550d6fdf0c20ff7c48e66ba06a49a6, $134e9b5d16a3027d2fcf60a78c1be9355b4fa99e, $78ea229c038a7e1d09ddf36be13ca565d5002fc6, $f6e9c0b2c07460ffdb564a9954c8d6859199fa6c, $6cc6f0c09acdb2c48feccaa89bb0fe630f59a709, $fbadb0598b2fe16aa1a078187620ec4c2df08451, $63e939b53dcb491876b92c688c5b176b361e7e51, $3cf38e32941e54acebb720f5f2b1feea77927cbe, $97900d053b21aef9dc98e712d440fd13890b5f69, $f55bfeb3befe9efdee5c9bfc997ab1efc1efbdf9, $f6dd866296210b17fee010c3e4a2e0c9e52e6717, $9d4d995aa745a3caa6276afad505d3e4097aa075, $65c35c03571307d7546d6978605a6b11b473f6ee, $4186509c707e96b77b51a76f8294d7e22ff52c61, $fee83a80c09a710c5415f28a9658d5d459d8b45d, $2ce7d7703c7679f0bbe711668ff0923ffcf8997f, $3875c9c843d33762fa733bcaf128f26a10bc75e7, $e4be02471657c3a17c667d7c079498e4b314049f, $5cfc04ffb4a95cbcc25df03bc41be4cae0d78870, $03330efabb3acce0bf28035b1451adaacc8e0c15, $64186650ffe4469ebbe52b644ae543864d32f43c, $d87a71e5ec936501fbd0e613d309ce4ce2091f62, $bd45dd7cd871a710296db92f07fe3948139e6c23, $c4d41bfb33993f9d64699726a445283ce307e30c, $13a742728e5e0fc7fe363a07799f0fad276ded43, $7935072efbd8d5bbc30653e0f1016c2a3274e4e2, $b00db0952e535ede60a930a055d0966580317ae5, $6dc7315120ff4c1b0d0627883ea68169b2d53397, $56892c4b26c20431759cff34bbeb63543af8d3e1, $a59e1e7c7eaee083d756ee1ff6ec31ca3d8651d7, $cfa48fc3e843dff01aa026ec77010ab57e8c2ff0, $b8f81cf0c665ea8be947f102cbff97615f1ff300, $62dd97f4ac270da1483e94687d9a16556bd12ad1, $88b467dffc6b18f92dc4e0c3062c2c09c38fd0a6, $4d77086694ad9486cf0e79df676a0c84f7236f11, $98c1383c91716692a5770160150819f0edf3bb71, $e1d77a5c1b93818fafc8b142c23cd6f81dc8b339, $59e0a8a44076603ab6b535713b80a6c66df783db, $a60223ceadf1a96ef87109b507f84728f80badc6, $18261b303d082d82af157ff02914c0cc32f5da1f, $ff0a11113bdaa33dfaf16bc5e4191d05407c0048, $a1cddd78fc1efa45069f3693fd0ea3f465bbfc35, $9c0cd9690e523b8a8b36f759cc688fb28f150450, $d016ffbeac51b95ad0fdd6df1c4a855c3bd5566b, $6790bdeb52c07321b0e14079c4008d3254ff5be2, $afed25a8c1767bb5347ed93461d38a23d7b220da, $dcee1d0658d3d390790e1afa554bfcaca6818ac6, $b34350e2fb1ac3e70364e724355a3e505fb6b4d8, $72894a0f3431b6642ca9f475580a7d7e87af7de0, $c5ca2bc3d5d4e9464013d3138f8d2567e574ae74, $054d433c88ee66f1c7818196ff466d1f11fca9b8, $e4210062d7c3d5e95233f12082fb7790a1809a3f, $50dd343021e509eb3a5a7fd0d8a4f8364afbdcb5, $9e169e9accab4f555ca391204517dc5b4b9e4f0e, $1323fb1a612f22da7cf39d9c475baa220065ca4c, $5ddf57fe96ab1ebacd711772623f083f7f83c60f, $0eb4d8ef24984ab51d7ca189f7ac844ff35d83bd, $6aaf9c136ad177442d609509633b3c806e32a573, $913c460401c798706ae4e31513d84adce05b5826, $0984e21b387d0c2c2b0e5f032219ee5d4e25d4c7, $f2816dbe9f1aa98e45c3dc6412b79f435c493bc9, $361f55e4062bf3ef08645e81a20eb5bf20cf3665, $89c059df583f84c9102f5c271b5771e767b86819, $5003e646a85f65b0c29fded14159152da435d422, $bac69b5dd4be2d51cd20e43892c3d024d30ce964, $db44c07afc110d226bbb7782fcf71185615d21ed, $739101912b0635c9381278040557fb52b8fe455b, $df61eba6700efec509570806a1d1b160805099ec, $5d314a8416e230fd6ec43c6ce36c70bb9abebf63, $2a063876a37e7baf5bf1f507d5527e2edd249346, $9b0af2f5c6a4ad23e883cdc040bab2cf63972849, $5b679a57952d9c32ae9e37a4740c5d8eb15599a5, $a77769af862953ba2eb43a1c41f13c9d3d0d4ec9, $7610bbd3f5bb67284eee8476721ae6109dc29bea, $ad6c2377e01611f56c33f84bb4ae663a1da5b3b3, $137caaa84d79ed347b93304ddfa6b896a92ef5eb, $fd87374e7dca3ca63773593e26fcdc0aaa090398, $4dd304831a5849cce6e92b2f26af14f528277c48, $c4ed17f77bff9f4a482e68b22c1d85fca9fb1b60, $9a7644b7397d429b90c8638a475571551d87f797, $45bdd30cb43d42306216a4076fa5eb1e5887a4b2, $b4736dfa8350ffbcf2773c6943a718ae60c37638, $0fafd29a5734e3932de0062358ba291b4688cf87, $41f8881b4feb85e597aeff1f2446c4d34ac62df6, $2cb53ff756483b738e7b0b39ada3453b5259a1f3, $6ade98ccf84882ece66e64198aeea017ca33416d, $0077b6576a668f861f9f41fdf8da7795c8bb86d5, $06b219fe84915c8305f1cc3c72c981784b3521d5, $1c29a418a7e354496962a1c012d061e0c1ac9ce0, $cac3cf7154ae9c656c4096dc38b4efa145905654, $2e130e4a217bd90c0619ff429c0a4ba040237000, $31581d2b4f458efdee584fecb05a9d3002509e1f, $62ef6888698bf80c941a9fc6b72ed9db43188434, $4ac95d85ca324ad71e30f1d8c681d1df6daeda8a, $00eef41b6b4aac069c8e32084ed4a6cc016b4acf, $e586c29ffe9efb11d6d1d64bc1365442296e670d, $ff048335719fe5f3472576982b5d8d6422908c3e, $da29c7bd34640d749392dfa7919ab1e9aeadc311, $7b00f0dcaee30f5b0e07832614724efe903b0d30, $d5f2c65f4131a1468d5b67a8838a9b7ed8c049e2, $97d66871716eb384cc7d0329c4d76f33a0866a88, $6177e47ab943d78e738b6667f5285fb31331b386, $b1197e1d9353d214067598a9fae07ead7ba1891e, $8c6ca0e14a369c37be427a717007c809081dacea, $768ae92be3c4ce0558853a35fbae4d5cf1344246, $3c165771787080eaf2e6bfde042a8b0f3d208e8e, $f12e3a878123c3f3ed5efd790002caa1b874155c, $7e3f520f57e1d54513763b5ead2f6937770a7286, $58247aee24451fd30d7bc4cbcf8030397e5c0053, $624926802351575ff7e4e3d60efa3bfb56e640ed, $945cbba599808018749ddc4ebb592168f2858c1b, $ee25656d71db9a82c8efd8c4a99ddbec89f24a67, $a0914b17c661d268f9c644f250fd11cb7de40531, $1caa0aff0a8236fa7f83f392c11b76cf7eeaac60, $7dcb5313b9541dd29c94bfde0adf91dc91d2cfe9, $1c8b44b67a6a957d6648adfc8047c42c3db400cf, $2927f93106d32d8d673874f2cca05aeb611e1019, $13816feefbc1de77ef5b57f2627020baba20769d, $dbbda4409ff37a4a23d0fc973f7effa4c399126a, $9c3c6c3f402dffee2eca42604553310883cbcaee, $ca27c895a11d1b35e14b6bdd594132f0218ab159, $d313b081a3efc5492be95afe39f715413dd35586, $d1e574fef2ca8042fc8dc39b0f6276a93411589e, $cc6c7ec1ab22e4a9be1cf128e5f85828260783c4, $39ca82f53c4e3241b31b203eaf7f154e423e31ef, $dd825c8a0bc74812303ae6013b4d32649cc6a771, $5d25c8a4784317ddff9ec556934cf0ea802e86ec, $0ac4de7ea5e9d964bd4a89f352e1a6ae7310e6d0, $46100ad450e798c4200914813ec6ddf6437b446a, $dc566050dc79801757a0c7fc38418c8e92d0d21e, $13fb63452aadfa082bd2bc3e1e320ad301f07877, $31f4ece9552cc092a971c138497323957cd850d2, $e3db2e354b883b59e8dc56b3e7a353ddfd457812, $c5f6834d7c8db8535e63751a1044d6d74bcf2a2d, $e026d487974d9511e943df7375df458ba6c207ec, $aad6ddbfcd1c677b55644febc0c402d41ec14343, $1314af91bfdbca8d4afad4131b6554ca6b20d930, $bf4d81dae5d9390791a786767abece344e5002fc, $4ab399da184578ba0ebc7a78c68725c336809f0f, $eae098faa56a8426c3b11d763da3817f480829f4, $dd8bd7307017407fcc36f8d04a688f74a0774c02, $0fdb9d7cebc23168d968e9239c2ab191ef4b153d, $31233ad3b0d068f8c0f7450a7c744d514d0d1778, $ecb3a8549209ede28c810c08edecdb6974a8cadc, $a10c4f666d27364036b562823e5830bc448e046a, $0a0c2e56171bb781433d0781b28112c459f0b314, $12b1b73183aaba1f7aeb0d61529b0788c0cda5ee, $b7c2dd8fac13c97a69de7142a2578246b9349550, $315d5684d5343580d409f16119f78d776a58aefb, $4de8718dea545dd49f81ee52b9c04ba5775256ad, $d223399907113a1f216aaa64997bc1d4cfa8e1ac, $62756decb3cdc404154bf0fdbb493cb289d579aa, $28151be14cb5c22a236163c3e97409d6fd607356, $bc77196f4730442a96e36e1a13b3ff8dc14151eb, $9f8dbef9a77c2f3e51130ad8e1d780d7fca00ec1, $0c3bf2477654309f859d3e860133d9e4c96aaebd, $d80cecd698b118abef8adf7fee046080a1d62902, $d048770ece2b5c77602a933aa082c2366456a37f, $b41e38c3614c63a8f667c27a467b757098567eb2, $3eb551e321554e7941fdd2b6176dea064351c760, $6c7c819f808ac125c69e1d981f350dcba44da8b
+
+############### This section is just for location-hidden services ###
+
+## Once you have configured a hidden service, you can look at the
+## contents of the file ".../hidden_service/hostname" for the address
+## to tell people.
+##
+## HiddenServicePort x y:z says to redirect requests on port x to the
+## address y:z.
+
+#HiddenServiceDir /var/lib/tor/hidden_service/
+#HiddenServicePort 80 127.0.0.1:80
+
+#HiddenServiceDir /var/lib/tor/other_hidden_service/
+#HiddenServicePort 80 127.0.0.1:80
+#HiddenServicePort 22 127.0.0.1:22
+
+################ This section is just for relays #####################
+#
+## See https://www.torproject.org/docs/tor-doc-relay for details.
+
+## Required: what port to advertise for incoming Tor connections.
+#ORPort 9001
+## If you want to listen on a port other than the one advertised in
+## ORPort (e.g. to advertise 443 but bind to 9090), you can do it as
+## follows.  You'll need to do ipchains or other port forwarding
+## yourself to make this work.
+#ORPort 443 NoListen
+#ORPort 127.0.0.1:9090 NoAdvertise
+
+## The IP address or full DNS name for incoming connections to your
+## relay. Leave commented out and Tor will guess.
+#Address noname.example.com
+
+## If you have multiple network interfaces, you can specify one for
+## outgoing traffic to use.
+# OutboundBindAddress 10.0.0.5
+
+## A handle for your relay, so people don't have to refer to it by key.
+#Nickname ididnteditheconfig
+
+## Define these to limit how much relayed traffic you will allow. Your
+## own traffic is still unthrottled. Note that RelayBandwidthRate must
+## be at least 20 KB.
+## Note that units for these config options are bytes per second, not bits
+## per second, and that prefixes are binary prefixes, i.e. 2^10, 2^20, etc.
+#RelayBandwidthRate 100 KB  # Throttle traffic to 100KB/s (800Kbps)
+#RelayBandwidthBurst 200 KB # But allow bursts up to 200KB/s (1600Kbps)
+
+## Use these to restrict the maximum traffic per day, week, or month.
+## Note that this threshold applies separately to sent and received bytes,
+## not to their sum: setting "4 GB" may allow up to 8 GB total before
+## hibernating.
+##
+## Set a maximum of 4 gigabytes each way per period.
+#AccountingMax 4 GB
+## Each period starts daily at midnight (AccountingMax is per day)
+#AccountingStart day 00:00
+## Each period starts on the 3rd of the month at 15:00 (AccountingMax
+## is per month)
+#AccountingStart month 3 15:00
+
+## Contact info to be published in the directory, so we can contact you
+## if your relay is misconfigured or something else goes wrong. Google
+## indexes this, so spammers might also collect it.
+#ContactInfo Random Person <nobody AT example dot com>
+## You might also include your PGP or GPG fingerprint if you have one:
+#ContactInfo 0xFFFFFFFF Random Person <nobody AT example dot com>
+
+## Uncomment this to mirror directory information for others. Please do
+## if you have enough bandwidth.
+#DirPort 9030 # what port to advertise for directory connections
+## If you want to listen on a port other than the one advertised in
+## DirPort (e.g. to advertise 80 but bind to 9091), you can do it as
+## follows.  below too. You'll need to do ipchains or other port
+## forwarding yourself to make this work.
+#DirPort 80 NoListen
+#DirPort 127.0.0.1:9091 NoAdvertise
+## Uncomment to return an arbitrary blob of html on your DirPort. Now you
+## can explain what Tor is if anybody wonders why your IP address is
+## contacting them. See contrib/tor-exit-notice.html in Tor's source
+## distribution for a sample.
+#DirPortFrontPage /etc/tor/tor-exit-notice.html
+
+## Uncomment this if you run more than one Tor relay, and add the identity
+## key fingerprint of each Tor relay you control, even if they're on
+## different networks. You declare it here so Tor clients can avoid
+## using more than one of your relays in a single circuit. See
+## https://www.torproject.org/docs/faq#MultipleRelays
+## However, you should never include a bridge's fingerprint here, as it would
+## break its concealability and potentionally reveal its IP/TCP address.
+#MyFamily $keyid,$keyid,...
+
+## A comma-separated list of exit policies. They're considered first
+## to last, and the first match wins. If you want to _replace_
+## the default exit policy, end this with either a reject *:* or an
+## accept *:*. Otherwise, you're _augmenting_ (prepending to) the
+## default exit policy. Leave commented to just use the default, which is
+## described in the man page or at
+## https://www.torproject.org/documentation.html
+##
+## Look at https://www.torproject.org/faq-abuse.html#TypicalAbuses
+## for issues you might encounter if you use the default exit policy.
+##
+## If certain IPs and ports are blocked externally, e.g. by your firewall,
+## you should update your exit policy to reflect this -- otherwise Tor
+## users will be told that those destinations are down.
+##
+## For security, by default Tor rejects connections to private (local)
+## networks, including to your public IP address. See the man page entry
+## for ExitPolicyRejectPrivate if you want to allow "exit enclaving".
+##
+#ExitPolicy accept *:6660-6667,reject *:* # allow irc ports but no more
+#ExitPolicy accept *:119 # accept nntp as well as default exit policy
+#ExitPolicy reject *:* # no exits allowed
+
+## Bridge relays (or "bridges") are Tor relays that aren't listed in the
+## main directory. Since there is no complete public list of them, even an
+## ISP that filters connections to all the known Tor relays probably
+## won't be able to block all the bridges. Also, websites won't treat you
+## differently because they won't know you're running Tor. If you can
+## be a real relay, please do; but if not, be a bridge!
+#BridgeRelay 1
+## By default, Tor will advertise your bridge to users through various
+## mechanisms like https://bridges.torproject.org/. If you want to run
+## a private bridge, for example because you'll give out your bridge
+## address manually to your friends, uncomment this line:
+#PublishServerDescriptor 0
+

@@ -1,0 +1,42 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+include "/etc/bind/zones.rfc1918";
+
+// Ad-Blocking configuration
+include "/etc/bind/adblock_include.conf";
+
+// Local and Own Sites
+zone "pisrv.lan" {
+        type master;
+        file "/etc/bind/pisrv.lan.zone";
+        allow-update { none; };
+};
+
+zone "1.168.192.in-addr.arpa" {
+	type master;
+	file "/etc/bind/rev.lan.zone";
+	allow-update { none; };
+};
+
+// Forwarding Zone 
+zone "youtube.com" {
+        type forward;
+        forward first;
+        forwarders { 178.33.182.34; 5.135.158.150; 91.213.246.2; 80.67.0.2; };
+};
+
+zone "cn" {
+        type forward;
+        forward first;
+        forwarders { 203.119.29.4; 1.2.4.8; 61.31.233.1; 211.78.130.2; };
+};
+
+zone "onion" {
+        type forward;
+        forwarders { 127.0.0.2; };
+        forward only;
+};
