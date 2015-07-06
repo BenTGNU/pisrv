@@ -13,8 +13,9 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=100
+HISTFILESIZE=200
+HISTTIMEFORMAT='%F %T %t'
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -36,6 +37,24 @@ fi
 case "$TERM" in
     xterm-color) color_prompt=yes;;
 esac
+
+## Couleurs pour le prompt
+DEFAULT="\[\033[00m\]"
+BLACK="\[\033[30m\]"
+RED="\[\033[31m\]"
+GREEN="\[\033[32m\]"
+ORANGE="\[\033[33m\]"
+BLUE="\[\033[34m\]"
+MAGENTA="\[\033[35m\]"
+CYAN="\[\033[36m\]"
+WHITE="\[\033[37m\]"
+
+## Effets de texte (défaut, gras, souligné)
+export DEF="\033[0;0m"
+export BOLD="\033[1m"
+export UNDER="\033[4m"
+
+export ALTERNATE_EDITOR=emacs EDITOR=emacsclient VISUAL=emacsclient
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
@@ -109,3 +128,11 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+# Auto Tmux
+if [ "$PS1" != "" -a "${STARTED_TMUX:-x}" = x -a "${SSH_TTY:-x}" != x ]
+then
+        STARTED_TMUX=1; export STARTED_TMUX
+        sleep 1
+        ( (tmux has-session -t Remote && tmux attach-session -t Remote) || (tmux new-session -s Remote) ) && exit 0
+        echo "tmux failed to start"
+fi
