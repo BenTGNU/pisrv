@@ -1,0 +1,20 @@
+#############################################################################
+# Id: match-all.action,v
+#
+# This file contains the actions that are applied to all requests and
+# may be overruled later on by other actions files. Less experienced
+# users should only edit this file through the actions file editor.
+#
+#############################################################################
+{ \
++change-x-forwarded-for{block} \ 
++hide-from-header{block} \ 
++hide-referrer{conditional-block} \ 
++hide-accept-language{fr-fr} \ 
++hide-if-modified-since{-60} \ 
++overwrite-last-modified{randomize} \ 
++crunch-if-none-match \ 
++session-cookies-only \ 
++fast-redirects{check-decoded-url} \
+}
+/ # Match all URLs

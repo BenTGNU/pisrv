@@ -1,0 +1,60 @@
+#!/bin/bash
+#
+### BEGIN INIT INFO
+# Provides: prepare-dirs
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Required-Start:
+# Required-Stop:
+# Short-Description: Create needed directories on /var/log/ for tmpfs at startup
+# Description: Create needed directories on /var/log/ for tmpfs at startup
+### END INIT INFO
+# needed Dirs
+DIR[0]=/var/log/apt
+DIR[1]=/var/log/fsck
+DIR[2]=/var/log/lighttpd
+PRM[2]="www-data.www-data"
+DIR[3]=/var/log/polipo
+PRM[3]="proxy.proxy"
+DIR[4]=/var/log/i2p
+PRM[4]="i2psvc.i2psvc"
+DIR[5]=/var/log/named
+PRM[5]="bind.bind"
+DIR[6]=/var/log/privoxy
+PRM[6]="privoxy.proxy"
+DIR[7]=var/log/lynis
+
+case "${1:-''}" in
+    start)
+        typeset -i i=0 max=$(echo "${!DIR[*]}" | tr " " "\n" | sort -nr | head -n1)
+	while (( i <= max ));do
+	    if [ -n "${DIR[$i]}" ];then
+	        mkdir -p ${DIR[$i]}
+		chmod 755 ${DIR[$i]}
+	    fi
+	    i=i+1
+	done
+	# set rights
+	typeset -i i=0 max=$(echo "${!PRM[*]}" | tr " " "\n" | sort -nr | head -n1)
+	while (( i <= max ));do
+	    if [ -n "${PRM[$i]}" ];then
+		chown -R ${PRM[$i]} ${DIR[$i]}
+	    fi
+	    i=i+1
+	done
+	    ;;
+	stop)
+	    ;;
+	restart)
+	    ;;
+	reload|force-reload)
+	    ;;
+	status)
+	    ;;
+	*)
+	echo "Usage: $SELF start"
+	exit 1
+	    ;;
+esac
+
+exit 0
