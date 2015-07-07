@@ -1,0 +1,45 @@
+
+; <<>> DiG 9.9.5-9-Raspbian <<>> . NS @75.127.96.89
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 57154
+;; flags: qr aa rd; QUERY: 1, ANSWER: 8, AUTHORITY: 0, ADDITIONAL: 16
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;.				IN	NS
+
+;; ANSWER SECTION:
+.			86400	IN	NS	ns7.opennic.glue.
+.			86400	IN	NS	ns6.opennic.glue.
+.			86400	IN	NS	ns3.opennic.glue.
+.			86400	IN	NS	ns9.opennic.glue.
+.			86400	IN	NS	ns8.opennic.glue.
+.			86400	IN	NS	ns4.opennic.glue.
+.			86400	IN	NS	ns2.opennic.glue.
+.			86400	IN	NS	ns10.opennic.glue.
+
+;; ADDITIONAL SECTION:
+ns2.opennic.glue.	14400	IN	A	173.160.58.202
+ns2.opennic.glue.	14400	IN	AAAA	2001:470:f032:10:0:100:53:10
+ns3.opennic.glue.	14400	IN	A	198.46.244.109
+ns3.opennic.glue.	14400	IN	AAAA	2001:470:8269::53
+ns4.opennic.glue.	14400	IN	A	178.63.145.230
+ns4.opennic.glue.	14400	IN	AAAA	2a01:4f8:101:3062::5:2
+ns6.opennic.glue.	14400	IN	A	207.192.71.13
+ns6.opennic.glue.	14400	IN	AAAA	2002:cfc0:470d::1
+ns7.opennic.glue.	14400	IN	A	199.231.210.120
+ns7.opennic.glue.	14400	IN	AAAA	2001:470:1f10:c6::11
+ns8.opennic.glue.	14400	IN	A	178.63.116.152
+ns8.opennic.glue.	14400	IN	AAAA	2a01:4f8:141:4281::999
+ns9.opennic.glue.	14400	IN	A	188.226.215.149
+ns9.opennic.glue.	14400	IN	AAAA	2a03:b0c0:0:1010::48:4001
+ns10.opennic.glue.	14400	IN	A	188.226.146.136
+
+;; Query time: 105 msec
+;; SERVER: 75.127.96.89#53(75.127.96.89)
+;; WHEN: Tue Jul 07 09:50:33 CEST 2015
+;; MSG SIZE  rcvd: 501
+

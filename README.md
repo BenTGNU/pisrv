@@ -7,7 +7,7 @@ Les différents aspects suivant seront abordés:
 * boot - Une configuration optimal du démarrage de votre RPi
 * etc
   * apt - Une gestion optimal des paquet et des màjs
-  * bind - Un DNS sans tracking et bloqeur de pub et bien plus encore
+  * ~~bind~~ unbound - Un DNS **léger** sans tracking et bloqeur de pub et bien plus encore
   * default - La configuration de certains démons
   * fstab - Une optimisation de l'usage de la carte mémoire 
   * lighttpd - Un serveur web léger et réactif

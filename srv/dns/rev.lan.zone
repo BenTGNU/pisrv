@@ -1,0 +1,7 @@
+local-zone: "127.in-addr.arpa." static
+local-data: "1.168.192.in-addr.arpa. IN SOA pisrv.lan. hostmaster.pisrv.lan. 2016 604800 86400 2419200 604800"
+local-data: "1.168.192.in-addr.arpa. IN NS ns1.pisrv.lan."
+local-data: "1.168.192.in-addr.arpa. IN NS ns2.pisrv.lan."
+local-data-ptr: "192.168.1.10 ns1.pisrv.lan."
+local-data-ptr: "192.168.1.10 ns2.pisrv.lan."
+local-data-ptr: "192.168.1.10 pisrv.lan."
