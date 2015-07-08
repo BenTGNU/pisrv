@@ -13,7 +13,7 @@ Les différents aspects suivant seront abordés:
   * lighttpd - Un serveur web léger et réactif
   * minidlna - Streamer du contenu sur votre LAN
   * motion - Faire un peu de vidéo-surveillance chez soi
-  * polipo - En complément de BIND pour mettre en cache les sites les plus visités
+  * polipo - En complément de ~~BIND~~ Unbound pour mettre en cache les sites les plus visités
   * samba - Partager du contenu sur votre LAN
   * sysctl.conf - Obtenir les meilleures performances de votre Rpi
   * tor - Accéder au DeepWeb
