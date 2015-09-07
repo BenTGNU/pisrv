@@ -1,0 +1,24 @@
+#!/bin/sh
+upSeconds="$(/usr/bin/cut -d. -f1 /proc/uptime)"
+secs=$((${upSeconds}%60))
+mins=$((${upSeconds}/60%60))
+hours=$((${upSeconds}/3600%24))
+days=$((${upSeconds}/86400))
+UPTIME=`printf "%d days, %02dh%02dm%02ds" "$days" "$hours" "$mins" "$secs"`
+used=`df -h | grep 'dev/root' | awk '{print $3}'`
+avail=`df -h | grep 'dev/root' | awk '{print $4}'`
+
+# get the load averages
+read one five fifteen rest < /proc/loadavg
+
+echo "\033[0;32m
+    .~~.   .~~.	   \033[0;34m	`date +"%A, %e %B %Y, %r"`		\033[0;32m
+   '. \ ' ' / .'   \033[1;30m	`uname -srmo`				\033[0;31m
+    .~ .~~~..~.
+   : .~.'~'.~. :   \033[1;34m	Uptime.............: \033[1;30m  ${UPTIME}	\033[0;31m
+  ~ (   ) (   ) ~  \033[1;34m	Memory.............: \033[1;30m  Used $used | Free $avail	\033[0;31m
+ ( : '~'.~.'~' : ) \033[1;34m	Load Averages......: \033[1;30m  ${one}, ${five}, ${fifteen} (1, 5, 15 min)	\033[0;31m
+  ~ .~ (   ) ~. ~  \033[1;34m	Running Processes..: \033[1;30m  `ps ax | wc -l | tr -d " "`	\033[0;31m
+   (  : '~' :  )   \033[1;34m	IP Addresses.......: \033[1;30m  LAN `/sbin/ifconfig eth0 | /bin/grep "inet adr" | /usr/bin/cut -d ":" -f 2 | /usr/bin/cut -d " " -f 1` DMZ `wget -q -O - http://icanhazip.com/ | tail`	\033[0;31m
+    '~ .~~~. ~'
+        '~'	   \033[0;30m" > $1
