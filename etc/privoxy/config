@@ -367,9 +367,9 @@ logdir /var/log/privoxy
 #      was necessary to be consistent with the other file options and
 #      to allow previously forbidden characters.
 #
-#actionsfile match-all.action # Actions that are applied to all sites and maybe overruled later on.
-#actionsfile default.action   # Main actions file
-#actionsfile user.action      # User customizations
+actionsfile match-all.action # Actions that are applied to all sites and maybe overruled later on.
+actionsfile default.action   # Main actions file
+actionsfile user.action      # User customizations
 #
 #
 #  2.5. filterfile
@@ -413,8 +413,8 @@ logdir /var/log/privoxy
 #      It is recommended to place any locally adapted filters into a
 #      separate file, such as user.filter.
 #
-#filterfile default.filter
-#filterfile user.filter      # User customizations
+filterfile default.filter
+filterfile user.filter      # User customizations
 #
 #
 #  2.6. logfile
@@ -1323,7 +1323,7 @@ forward	pisrv.lan	.
 forward-socks4a	.onion	127.0.0.1:9050	.
 ## Requests to thepiratebay.sx go through Tor 
 forward-socks4a	.thepiratebay.se	127.0.0.1:9050	.
-forward-socks4a	.torproject.org	127.0.0.1:9050	.
+forward-socks4a	.torproject.org		127.0.0.1:9050	.
 #
 #
 #  5.3. forwarded-connect-retries
