@@ -1,7 +1,7 @@
 Des exemples de configuration pour votre Raspberry Pi
 =======================================
 
-Pour commencer tout est basé sur [Raspbian](http://www.raspbian.org/) via une installation [NOOBS](http://www.raspberrypi.org/help/noobs-setup/).
+Pour commencer tout est basé sur [Raspbian](http://www.raspbian.org/) ~~via une installation [NOOBS](http://www.raspberrypi.org/help/noobs-setup/).~~
 
 Les différents aspects suivant seront abordés:
 * boot - Une configuration optimal du démarrage de votre RPi
