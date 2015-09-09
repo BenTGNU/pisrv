@@ -91,7 +91,7 @@ FastFirstHopPK 0
 ##
 MaxCircuitDirtiness 300 # Cycles proxies every 5 minutes
 LongLivedPorts 80,443 # heh . . . xD
-NumCPUs 2 # number of CPUs to use
+NumCPUs 1 # number of CPUs to use
 ClientUseIPv6 1 # Set to 1, "Tor might connect to entry nodes over IPv6".
 
 ## Exit nodes
@@ -111,11 +111,11 @@ ExitNodes {hk},{kr},{jp},{lv},{ro},{be},{ch},{bg},{il},{sg},{tw},{ad},{lu},{mo}
 ## HiddenServicePort x y:z says to redirect requests on port x to the
 ## address y:z.
 
-#HiddenServiceDir /var/lib/tor/hidden_service/
-#HiddenServicePort 80 127.0.0.1:80
+HiddenServiceDir /srv/tor/hidden_web/
+HiddenServicePort 80 127.0.0.1:80
+HiddenServicePort 443 127.0.0.1:443
 
-#HiddenServiceDir /var/lib/tor/other_hidden_service/
-#HiddenServicePort 80 127.0.0.1:80
+#HiddenServiceDir /srv/tor/hidden_sftp/
 #HiddenServicePort 22 127.0.0.1:22
 
 ################ This section is just for relays #####################
